@@ -10,6 +10,8 @@
 
     let openai: OpenAI;
 
+    let imageURL: string|null;
+
     token.subscribe(value => {
         openai = new OpenAI({apiKey: value, dangerouslyAllowBrowser: true});
     });
@@ -20,7 +22,8 @@
             prompt: (document.getElementById('promptInput') as HTMLInputElement).value,
         })
             .then(image => {
-            (document.querySelector('image') as HTMLImageElement).src = image.data[0].url;
+            imageURL = image.data[0].url!;
+            console.log(imageURL);
         })
             .catch(error => {
                 document.querySelector('p')!.textContent = error.message;
@@ -50,5 +53,5 @@
             }} />
 </div>
 
-<image></image>
+<img alt="The AI-Generated image" src={imageURL} />
 <p></p>
